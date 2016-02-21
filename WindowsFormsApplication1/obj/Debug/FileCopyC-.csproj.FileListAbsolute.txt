@@ -1,0 +1,11 @@
+C:\Source\CopyFilesC-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Source\CopyFilesC-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Source\CopyFilesC-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Source\CopyFilesC-\WindowsFormsApplication1\bin\Debug\FirebirdSql.Data.FirebirdClient.dll
+C:\Source\CopyFilesC-\WindowsFormsApplication1\bin\Debug\FirebirdSql.Data.FirebirdClient.pdb
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\FileCopyC-.csprojResolveAssemblyReference.cache
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.CopyFilesForm.resources
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\FileCopyC-.csproj.GenerateResource.Cache
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Source\CopyFilesC-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb

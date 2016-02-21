@@ -8,18 +8,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
-
+using FirebirdSql.Data.FirebirdClient;
 
 namespace WindowsFormsApplication1
 {
     public partial class CopyFilesForm : Form
     {
+        FbConnection fb;
         private Thread CopyThread = null;
 
         public CopyFilesForm()
         {
             InitializeComponent();
-            saveDialog.SelectedPath = "D:\\1"; 
+            saveDialog.SelectedPath = "D:\\1";
+
+            FbConnectionStringBuilder fb_con = new FbConnectionStringBuilder();
+            fb_con.Charset = "WIN1251"; //используемая кодировка
+            fb_con.UserID = "SYSDBA"; //логин
+            fb_con.Password = "masterkey"; //пароль
+            fb_con.Database = "C:\\Source\\CopyFilesC-\\db.fdb"; //путь к файлу базы данных
+            fb_con.ServerType = 0; //указываем тип сервера (0 - "полноценный Firebird" (classic или super server), 1 - встроенный (embedded))
+
+            fb = new FbConnection(fb_con.ToString());
+
+            if (fb.State == ConnectionState.Closed)
+                fb.Open();
+
+            FbTransaction fbt = fb.BeginTransaction(); //стартуем транзакцию; стартовать транзакцию можно только для открытой базы (т.е. мутод Open() уже был вызван ранее, иначе ошибка)
+
+            FbCommand SelectSQL = new FbCommand("SELECT * FROM FILES", fb); //задаем запрос на выборку
+
+            SelectSQL.Transaction = fbt; //необходимо проинициализить транзакцию для объекта SelectSQL
+            FbDataReader reader = SelectSQL.ExecuteReader();
+
+            DataTable dt = new DataTable();
+
+            dt.Load(reader);
+
+            dataGrid.DataSource = dt;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -51,11 +77,6 @@ namespace WindowsFormsApplication1
             };
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            
-        }
-
         Action<ProgressBar, int> SetValue1 = delegate(ProgressBar pb, int percent)
         { pb.Value = percent; };
 
@@ -76,6 +97,8 @@ namespace WindowsFormsApplication1
                 fc.OnComplete += fc_OnComplete;
                 fc.Copy();
             }
+
+
         }
 
         void fc_OnComplete()
@@ -85,7 +108,7 @@ namespace WindowsFormsApplication1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (openDialog.FileNames.Count() > 1)
+            if (openDialog.FileNames.Count() > 0)
             {
                 this.CopyThread = new Thread(new ThreadStart(this.copyFiles));
                 this.CopyThread.Start();
@@ -115,6 +138,13 @@ namespace WindowsFormsApplication1
             catch
             { }
         }
-    }
 
+        private void dataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+
+    }
 }
